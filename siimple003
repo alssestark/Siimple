@@ -1,0 +1,33 @@
+package ap1;
+
+import java.io.IOException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/formulario001")
+public class formulario001 extends HttpServlet {
+    private static final String USUARIO_VALIDO = "stark";
+    private static final String CLAVE_VALIDA = "0987";
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("index.jsp");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String usuario = request.getParameter("usuario");
+        String clave = request.getParameter("clave");
+
+        if (USUARIO_VALIDO.equals(usuario) && CLAVE_VALIDA.equals(clave)) {
+            request.getRequestDispatcher("bienvenido01.jsp").forward(request, response);
+        } else {
+            request.setAttribute("error", "Usuario o clave incorrectos");
+            request.setAttribute("errorExists", true);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        }
+    }
+}
